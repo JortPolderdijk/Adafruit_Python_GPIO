@@ -110,6 +110,12 @@ class Device(object):
         self._logger.debug("Wrote 0x%02X",
                      value)
 
+    def writeRaw(self, buffer):
+        """Write bytearray on the bus (without register)."""
+        self._bus.write_bytes(self._address, buffer)
+        self._logger.debug("Wrote 0x%0dX",
+                           buffer)
+
     def write8(self, register, value):
         """Write an 8-bit value to the specified register."""
         value = value & 0xFF
@@ -144,6 +150,12 @@ class Device(object):
         self._logger.debug("Read 0x%02X",
                     result)
         return result
+
+    def readRaw(self, count):
+        """Raw read n bytes on the bus (without register)."""
+        result = self._bus.read_bytes(self._address, count)
+        self._logger.debug("Read 0x%02X",
+                           result)
 
     def readU8(self, register):
         """Read an unsigned byte from the specified register."""
